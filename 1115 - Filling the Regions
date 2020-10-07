@@ -1,0 +1,87 @@
+//1115 - Filling the Regions
+//link - http://lightoj.com/volume_showproblem.php?problem=1115
+//bfs
+#include <bits/stdc++.h>
+using namespace std;
+
+char gr[51][51];
+bool vis[51][51];
+int n,m,kase,dirx[] = {0,1,0,-1},diry[] = {1,0,-1,0};
+vector<pair<int ,int > >v;
+
+void clear(){
+    memset(vis, 0, sizeof(vis));
+}
+
+void bfs(char c){
+    int i, j, k;
+    queue<pair<int, int> >q;
+    for(i=0;i<v.size();i++){
+        if(c!=gr[v[i].first][v[i].second]){
+            vis[v[i].first][v[i].second]=1;
+            q.push({v[i].first,v[i].second});
+        }
+    }
+    pair <int , int> p;
+    while(!q.empty()){
+        p=q.front();q.pop();
+        int x=p.first,y=p.second;
+        for(i=0;i<4;i++){
+            int a=dirx[i],b=diry[i];
+            a+=x,b+=y;
+            if(a<0 || b<0 || a>=n || b>=m)continue;
+            if(gr[a][b] == c) continue;
+            if(vis[a][b]) continue;
+            vis[a][b] = 1;
+            q.push({a,b});
+        }
+    }
+    for(i=0;i<n;i++){
+        for(k=0;k<m;k++){
+            if(!vis[i][k])gr[i][k]=c;
+        }
+    }
+}
+
+void solve(){
+    int i, j, k;
+    cin>>n>>m;
+    string s;
+    for(i=0;i<n;i++){
+        cin>>s;
+        for(j=0;j<m;j++){
+            gr[i][j]=s[j];
+        }
+    }
+    for(i=0;i<n;i++){
+        for(j=0;j<m;j++){
+            if(i*j==0 || (i-n+1)*(j-m+1)==0){
+                v.push_back(make_pair(i,j));
+            }
+        }
+    }
+    char c='A';
+    for(j=0;j<26;j++){
+        bfs(c);
+        c++;
+        clear();
+    }
+    printf("Case %d:\n", ++kase);
+    for(i=0;i<n;i++){
+        for(j=0;j<m;j++){
+            cout<<gr[i][j];
+        }
+        cout<<'\n';
+    }
+
+    clear();
+    v.clear();
+}
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        solve();
+    }
+}
