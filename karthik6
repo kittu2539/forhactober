@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+#include <fstream>
+#include <cstdio>
+using namespace std;
+// vector<pair<int,int> > v;
+// cin.ignore();//twice getline(cin,s);
+// g++ iterator.cpp -std=c++17
+// cout<<(A + B == C ? "YES" : "NO")<<endl;
+// __gcd(a,b)
+// string s=to_string(i);
+// sort(arr, arr+n, greater<int>());
+// const long double pi = acos(-1.0);
+#define ff first
+#define ss second
+#define pb push_back
+#define mk make_pair
+#define vll vector<ll>
+#define mll map<ll,ll >
+#define mlli map<ll,ll>::iterator
+#define size size()
+#define endl "\n"
+#define ll long long int
+#define ld long double
+void fast(){ios_base::sync_with_stdio(false);
+cin.tie(NULL);cout.tie(NULL);}
+
+
+
+
+int main(void){
+	int t;
+	cin>>t;
+	while(t--){
+		int n;
+		cin>>n;
+		vector<int> vect1(n,0);
+		for(int i=0;i<n;i++){
+			cin>>vect1[i];
+		}
+		vector<int> flagvect(n,0);
+		flagvect[0]=1;
+		int prev_1,prev_2,l,r,cnt1,cnt2,cnt;
+		l=1;
+		r=n-1;
+		prev_1=vect1[0];
+		prev_2=0;
+		cnt=1;
+		cnt1=vect1[0];
+		cnt2=0;
+		int flag=2;
+		while(l<=r){
+			if(flag==1){
+				prev_1=0;
+				while(prev_1<=prev_2&&l<=r){
+					prev_1+=vect1[l];
+					cnt1+=vect1[l];
+					flagvect[l]=1;
+					l++;
+				}
+				// cout<<l<<" "<<r<<"Inside first user"<<endl;
+				cnt++;
+				flag=2;
+			}else if(flag==2){
+				prev_2=0;
+				while(prev_2<=prev_1&&l<=r){
+					prev_2+=vect1[r];
+					cnt2+=vect1[r];
+					flagvect[r]=1;
+					r--;
+				}
+				// cout<<l<<" "<<r<<"Inside second user"<<endl;
+				cnt++;
+				flag=1;
+			}
+		}
+		cout<<cnt<<" "<<cnt1<<" "<<cnt2<<endl;
+	}
+}
