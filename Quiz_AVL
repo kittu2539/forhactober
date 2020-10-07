@@ -1,0 +1,159 @@
+import java.io.*;
+import java.util.*;
+
+
+class Node
+{
+	public Node left;
+	public Node right;
+	public int  data;
+
+	public Node()
+	{
+		left = null;
+		right = null;
+		data = 0;
+	}
+
+	public Node(int a)
+	{
+		left = null;
+		right = null;
+		data = a;
+	}
+
+
+	public int max(int a,int b)
+	{
+		if(a>b)
+		{
+			return a;
+		}
+		return b;
+	}
+
+
+	public void Insert_BST(Node root,int value)
+	{
+		if(value>root.data)
+		{
+			if(root.right==null)
+			{
+				Node n1 = new Node(value);
+				root.right = n1;
+			}
+			else
+			{
+				Insert_BST(root.right,value);
+			}
+		}
+		else
+		{
+			if(root.left==null)
+			{
+				Node n1 = new Node(value);
+				root.left = n1;
+			}
+			else
+			{
+				Insert_BST(root.left,value);
+			}
+		}
+	}
+
+	public void preorderTraversal(Node root)
+	{
+		if(root==null)
+		{
+
+		}
+		else
+		{
+			System.out.print(root.data+" ");
+			preorderTraversal(root.left);
+			preorderTraversal(root.right);
+		}
+	}
+
+	public int Height_of_root_node(Node root)
+	{
+		if(root.left==null && root.right==null)
+		{
+			return 0;
+		}
+		else if(root.left==null && root.right!=null)
+		{
+			return Height_of_root_node(root.right)+1;
+		}
+		else if(root.left!=null && root.right==null)
+		{
+			return Height_of_root_node(root.left)+1;
+		}
+		else
+		{
+			return max(Height_of_root_node(root.left),Height_of_root_node(root.right))+1;
+		}
+	} 
+
+
+	public void Rotation(Node root)
+	{
+		if(root==null)
+		{
+			return;
+		}
+		Node temp = root.left;
+		root.left = root.right;
+		root.right = temp;
+	}
+}
+
+public class Quiz_AVL
+{
+	public static void main(String args[])
+	{
+		int[] array = new int[]{50,20,10,60};
+
+		// int[] array = new int[]{50,20,70,35,80};  // For debugging
+
+		Node root = null;
+		
+		for(int i=0;i<array.length;i++)
+		{
+			if(i==0)
+			{
+				root = new Node(array[i]);
+			}
+			else
+			{
+				root.Insert_BST(root,array[i]);
+			}
+		}
+
+		System.out.println("Preorder traversal Before swaping  ");
+
+		root.preorderTraversal(root);
+		
+		System.out.println();
+
+		System.out.println();
+
+
+		System.out.println("After swapping Preorder traversal  ");
+
+		root.Rotation(root);
+
+		root.preorderTraversal(root);
+
+		System.out.println();
+
+		System.out.println();
+
+		
+		int x = root.Height_of_root_node(root);
+
+		System.out.println("Height of root node ");
+
+		System.out.println(x);
+	}
+}
